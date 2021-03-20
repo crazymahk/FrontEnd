@@ -1,20 +1,30 @@
 <div *ngIf="dataLoaded==false" class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>
+<div class="mb-3">
+  <label for="filterText" class="form-label">Ürün arama</label>
+  <input type="text" [(ngModel)]="filterText"  class="form-control" id="filterText" placeholder="Ürün arama ifadesi giriniz">
+</div>
+<div *ngIf="filterText" class="alert alert-success">
+
+{{filterText }} aramaktasınız
+</div>
 
 <table *ngIf="dataLoaded==true" class="table">
   <tr >
-    <td>Product Id</td>
-    <td>Ütün Adı</td>
-    <td>Categori</td>
-    <td>Fiyatı</td>
-    <td>Stok Adedi</td>
+    <th>Product Id</th>
+    <th>Ütün Adı</th>
+    <th>Categori</th>
+    <th>Fiyatı</th>
+    <th>KDvFiyatı</th>
+    <th>Stok Adedi</th>
   </tr>
-<tr *ngFor="let product of products">
-  <td>{{product.productId}}</td>
+<tr *ngFor="let product of products | filterPipe:filterText ">
+  <td>{{product.productId |uppercase}}</td>
   <td>{{product.productName}}</td>
   <td>{{product.categoryId}}</td>
   <td>{{product.unitPrice}}</td>
+  <td>{{product.unitPrice | vatAdded :10 }}</td>
   <td>{{product.unitsInStock}}</td>
 </tr>
 
